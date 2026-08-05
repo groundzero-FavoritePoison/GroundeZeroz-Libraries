@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reviews — GroundeZérö</title>
+<meta name="description" content="Reader and client reviews for GroundeZérö — dark romance and gothic fiction, and ghostwriting work.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header class="site-nav">
+  <div class="container">
+    <a href="index.html" class="brand">Ground<span>e</span>Zérö</a>
+
+    <nav class="nav-links" aria-label="Primary">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="books.html">Books</a>
+      <a href="stories.html">Stories</a>
+      <a href="articles.html">Articles</a>
+      <a href="blog.html">Blog</a>
+      <a href="portfolio.html">Portfolio</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+
+    <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <div class="nav-mobile" id="mobileMenu">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="books.html">Books</a>
+    <a href="stories.html">Stories</a>
+    <a href="articles.html">Articles</a>
+    <a href="blog.html">Blog</a>
+    <a href="portfolio.html">Portfolio</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</header>
+
+<!-- ============ PAGE HERO ============ -->
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow">Reviews</span>
+    <h1>Reader &amp; Client Words</h1>
+    <p>What readers say about the books, and what clients say about the ghostwriting work.</p>
+  </div>
+</section>
+
+<!-- ============ REVIEWS GRID ============ -->
+<section class="section">
+  <div class="container">
+    <div class="review-grid" id="reviewsGrid">
+      <!-- Injected from js/reviews-data.js -->
+    </div>
+
+    <div style="text-align:center;margin-top:48px;">
+      <p style="color:var(--white-dim);margin-bottom:18px;">Read something of mine? I'd love to hear from you.</p>
+      <a href="contact.html" class="btn btn-ghost">Leave a Review</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="brand">Ground<span>e</span>Zérö</a>
+        <p>Dark romance and gothic fiction about obsession, power, and the people who don't survive each other unmarked.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <a href="about.html">About</a>
+        <a href="books.html">Books</a>
+        <a href="stories.html">Stories</a>
+        <a href="blog.html">Blog</a>
+        <a href="contact.html">Contact</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>More</h4>
+        <a href="portfolio.html">Portfolio</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="reviews.html">Reviews</a>
+        <a href="faq.html">FAQ</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Stay Connected</h4>
+        <a href="newsletter.html">Join the newsletter</a>
+        <a href="https://tiktok.com/@darkisthenewlight" target="_blank" rel="noopener">TikTok — Dark Is The New Light</a>
+        <a href="https://instagram.com/groundezerowrites" target="_blank" rel="noopener">@GroundeZerowrites</a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <small>&copy; 2026 GroundeZérö. All rights reserved.</small>
+      <div class="footer-legal">
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/reviews-data.js"></script>
+<script src="js/main.js"></script>
+<script>
+  const grid = document.getElementById('reviewsGrid');
+  if (grid && typeof reviewsData !== 'undefined') {
+    grid.innerHTML = reviewsData.map(r => `
+      <div class="review-card">
+        <div class="stars">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</div>
+        <blockquote>"${r.quote}"</blockquote>
+        <cite><span>${r.author}</span><span>${r.source}</span></cite>
+      </div>
+    `).join('');
+  }
+</script>
+</body>
+</html>

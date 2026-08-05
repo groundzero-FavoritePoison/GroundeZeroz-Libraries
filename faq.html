@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAQ — GroundeZérö</title>
+<meta name="description" content="Frequently asked questions about reading GroundeZérö's books, working together, and the site.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header class="site-nav">
+  <div class="container">
+    <a href="index.html" class="brand">Ground<span>e</span>Zérö</a>
+
+    <nav class="nav-links" aria-label="Primary">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="books.html">Books</a>
+      <a href="stories.html">Stories</a>
+      <a href="articles.html">Articles</a>
+      <a href="blog.html">Blog</a>
+      <a href="portfolio.html">Portfolio</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+
+    <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <div class="nav-mobile" id="mobileMenu">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="books.html">Books</a>
+    <a href="stories.html">Stories</a>
+    <a href="articles.html">Articles</a>
+    <a href="blog.html">Blog</a>
+    <a href="portfolio.html">Portfolio</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</header>
+
+<!-- ============ PAGE HERO ============ -->
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow">FAQ</span>
+    <h1>Frequently Asked Questions</h1>
+    <p>Answers about reading, working together, and how this site stays up to date.</p>
+  </div>
+</section>
+
+<!-- ============ FAQ ACCORDION ============ -->
+<section class="section">
+  <div class="container">
+    <div class="filter-bar" id="filterBar">
+      <button class="filter-pill active" data-filter="All">All</button>
+      <button class="filter-pill" data-filter="Reading">Reading</button>
+      <button class="filter-pill" data-filter="Working Together">Working Together</button>
+      <button class="filter-pill" data-filter="Site & Updates">Site &amp; Updates</button>
+    </div>
+
+    <div class="accordion" id="faqAccordion">
+      <!-- Injected from js/faq-data.js -->
+    </div>
+
+    <div style="text-align:center;margin-top:48px;">
+      <p style="color:var(--white-dim);margin-bottom:18px;">Didn't find your answer?</p>
+      <a href="contact.html" class="btn btn-ghost">Ask a Question</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="brand">Ground<span>e</span>Zérö</a>
+        <p>Dark romance and gothic fiction about obsession, power, and the people who don't survive each other unmarked.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <a href="about.html">About</a>
+        <a href="books.html">Books</a>
+        <a href="stories.html">Stories</a>
+        <a href="blog.html">Blog</a>
+        <a href="contact.html">Contact</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>More</h4>
+        <a href="portfolio.html">Portfolio</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="reviews.html">Reviews</a>
+        <a href="faq.html">FAQ</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Stay Connected</h4>
+        <a href="newsletter.html">Join the newsletter</a>
+        <a href="https://tiktok.com/@darkisthenewlight" target="_blank" rel="noopener">TikTok — Dark Is The New Light</a>
+        <a href="https://instagram.com/groundezerowrites" target="_blank" rel="noopener">@GroundeZerowrites</a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <small>&copy; 2026 GroundeZérö. All rights reserved.</small>
+      <div class="footer-legal">
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/faq-data.js"></script>
+<script src="js/main.js"></script>
+<script>
+  const accordion = document.getElementById('faqAccordion');
+  const filterBar = document.getElementById('filterBar');
+
+  function render(filter) {
+    if (!accordion || typeof faqData === 'undefined') return;
+    const list = filter === 'All' ? faqData : faqData.filter(f => f.category === filter);
+    accordion.innerHTML = list.map((item, i) => `
+      <div class="accordion-item">
+        <button class="accordion-header" data-index="${i}">
+          <span>${item.q}</span>
+          <span class="plus"></span>
+        </button>
+        <div class="accordion-body"><p>${item.a}</p></div>
+      </div>
+    `).join('') || `<p style="text-align:center;color:var(--white-dim);">No questions in this category yet.</p>`;
+  }
+
+  render('All');
+
+  if (filterBar) {
+    filterBar.addEventListener('click', (e) => {
+      const btn = e.target.closest('.filter-pill');
+      if (!btn) return;
+      filterBar.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      render(btn.dataset.filter);
+    });
+  }
+
+  accordion.addEventListener('click', (e) => {
+    const header = e.target.closest('.accordion-header');
+    if (!header) return;
+    header.closest('.accordion-item').classList.toggle('open');
+  });
+</script>
+</body>
+</html>

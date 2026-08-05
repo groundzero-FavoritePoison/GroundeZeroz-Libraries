@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="pageTitle">Book — GroundeZérö</title>
+<meta name="description" content="Book details, synopsis, and reviews.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header class="site-nav">
+  <div class="container">
+    <a href="index.html" class="brand">Ground<span>e</span>Zérö</a>
+
+    <nav class="nav-links" aria-label="Primary">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="books.html">Books</a>
+      <a href="stories.html">Stories</a>
+      <a href="articles.html">Articles</a>
+      <a href="blog.html">Blog</a>
+      <a href="portfolio.html">Portfolio</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+
+    <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <div class="nav-mobile" id="mobileMenu">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="books.html">Books</a>
+    <a href="stories.html">Stories</a>
+    <a href="articles.html">Articles</a>
+    <a href="blog.html">Blog</a>
+    <a href="portfolio.html">Portfolio</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</header>
+
+<!-- ============ BOOK CONTENT (injected) ============ -->
+<div id="bookContent">
+  <!-- Populated by script below, or shows a not-found state -->
+</div>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="brand">Ground<span>e</span>Zérö</a>
+        <p>Dark romance and gothic fiction about obsession, power, and the people who don't survive each other unmarked.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <a href="about.html">About</a>
+        <a href="books.html">Books</a>
+        <a href="stories.html">Stories</a>
+        <a href="blog.html">Blog</a>
+        <a href="contact.html">Contact</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>More</h4>
+        <a href="portfolio.html">Portfolio</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="reviews.html">Reviews</a>
+        <a href="faq.html">FAQ</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Stay Connected</h4>
+        <a href="newsletter.html">Join the newsletter</a>
+        <a href="https://tiktok.com/@darkisthenewlight" target="_blank" rel="noopener">TikTok — Dark Is The New Light</a>
+        <a href="https://instagram.com/groundezerowrites" target="_blank" rel="noopener">@GroundeZerowrites</a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <small>&copy; 2026 GroundeZérö. All rights reserved.</small>
+      <div class="footer-legal">
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/books-data.js"></script>
+<script src="js/main.js"></script>
+<script>
+  const params = new URLSearchParams(location.search);
+  const slug = params.get('slug');
+  const book = (typeof booksData !== 'undefined') ? booksData.find(b => b.slug === slug) : null;
+  const container = document.getElementById('bookContent');
+
+  if (book) {
+    document.getElementById('pageTitle').textContent = book.title + ' — GroundeZérö';
+
+    const synopsisHtml = book.synopsis.map(p => `<p>${p}</p>`).join('');
+    const reviewsHtml = book.reviews.map(r => `
+      <div class="review">
+        <blockquote>"${r.quote}"</blockquote>
+        <cite>${r.author}</cite>
+      </div>
+    `).join('');
+
+    container.innerHTML = `
+      <section class="section" style="padding-top:calc(var(--nav-h) + 56px);">
+        <div class="container">
+          <div class="featured-book">
+            <div class="book-cover-frame">
+              <div style="aspect-ratio:2/3;background:linear-gradient(160deg,var(--midnight),var(--charcoal-2));display:flex;align-items:center;justify-content:center;font-family:var(--font-display);color:var(--gold);font-size:1.1rem;text-align:center;padding:20px;white-space:pre-line;">${book.coverLabel}</div>
+            </div>
+            <div class="book-copy">
+              <span class="eyebrow">${book.genre}</span>
+              <h3>${book.title}</h3>
+              ${synopsisHtml}
+              <div class="btn-row">
+                <a href="${book.buyLink}" class="btn btn-primary">Buy Now</a>
+                <a href="${book.sampleLink}" class="btn btn-ghost">Read a Sample</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-alt">
+        <div class="container">
+          <div class="section-head">
+            <span class="eyebrow">Reviews</span>
+            <h2>What Readers Are Saying</h2>
+          </div>
+          <div class="reviews-list">${reviewsHtml}</div>
+        </div>
+      </section>
+    `;
+  } else {
+    container.innerHTML = `
+      <section class="page-hero">
+        <div class="container book-detail-empty">
+          <span class="eyebrow">Books</span>
+          <h1>Book Not Found</h1>
+          <p>We couldn't find that title. Head back to the full list of books.</p>
+          <div style="margin-top:28px;">
+            <a href="books.html" class="btn btn-primary">Back to Books</a>
+          </div>
+        </div>
+      </section>
+    `;
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="pageTitle">Story — GroundeZérö</title>
+<meta name="description" content="Story details, description, and reading time.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header class="site-nav">
+  <div class="container">
+    <a href="index.html" class="brand">Ground<span>e</span>Zérö</a>
+
+    <nav class="nav-links" aria-label="Primary">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="books.html">Books</a>
+      <a href="stories.html">Stories</a>
+      <a href="articles.html">Articles</a>
+      <a href="blog.html">Blog</a>
+      <a href="portfolio.html">Portfolio</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+
+    <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <div class="nav-mobile" id="mobileMenu">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="books.html">Books</a>
+    <a href="stories.html">Stories</a>
+    <a href="articles.html">Articles</a>
+    <a href="blog.html">Blog</a>
+    <a href="portfolio.html">Portfolio</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</header>
+
+<!-- ============ STORY CONTENT (injected) ============ -->
+<div id="storyContent"></div>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="brand">Ground<span>e</span>Zérö</a>
+        <p>Dark romance and gothic fiction about obsession, power, and the people who don't survive each other unmarked.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <a href="about.html">About</a>
+        <a href="books.html">Books</a>
+        <a href="stories.html">Stories</a>
+        <a href="blog.html">Blog</a>
+        <a href="contact.html">Contact</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>More</h4>
+        <a href="portfolio.html">Portfolio</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="reviews.html">Reviews</a>
+        <a href="faq.html">FAQ</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Stay Connected</h4>
+        <a href="newsletter.html">Join the newsletter</a>
+        <a href="https://tiktok.com/@darkisthenewlight" target="_blank" rel="noopener">TikTok — Dark Is The New Light</a>
+        <a href="https://instagram.com/groundezerowrites" target="_blank" rel="noopener">@GroundeZerowrites</a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <small>&copy; 2026 GroundeZérö. All rights reserved.</small>
+      <div class="footer-legal">
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/stories-data.js"></script>
+<script src="js/main.js"></script>
+<script>
+  const params = new URLSearchParams(location.search);
+  const slug = params.get('slug');
+  const story = (typeof storiesData !== 'undefined') ? storiesData.find(s => s.slug === slug) : null;
+  const container = document.getElementById('storyContent');
+
+  function formatDate(iso) {
+    const d = new Date(iso + 'T00:00:00');
+    return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  }
+
+  if (story) {
+    document.getElementById('pageTitle').textContent = story.title + ' — GroundeZérö';
+    const descHtml = story.description.map(p => `<p>${p}</p>`).join('');
+
+    container.innerHTML = `
+      <section class="section" style="padding-top:calc(var(--nav-h) + 56px);">
+        <div class="container">
+          <div class="featured-book">
+            <div class="book-cover-frame">
+              <div style="aspect-ratio:2/3;background:linear-gradient(160deg,var(--midnight),var(--charcoal-2));display:flex;align-items:center;justify-content:center;font-family:var(--font-display);color:var(--gold);font-size:1.1rem;text-align:center;padding:20px;white-space:pre-line;">${story.coverLabel}</div>
+            </div>
+            <div class="book-copy">
+              <span class="eyebrow">${story.category}<span class="status-badge">${story.status}</span></span>
+              <h3>${story.title}</h3>
+              <div class="card-meta" style="margin-bottom:18px;"><span>${story.readingTime} read</span><span>Published ${formatDate(story.publishDate)}</span></div>
+              ${descHtml}
+              <div class="btn-row">
+                <a href="${story.readLink}" class="btn btn-primary">Continue Reading</a>
+                <a href="stories.html" class="btn btn-ghost">Back to All Stories</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    `;
+  } else {
+    container.innerHTML = `
+      <section class="page-hero">
+        <div class="container book-detail-empty">
+          <span class="eyebrow">Stories</span>
+          <h1>Story Not Found</h1>
+          <p>We couldn't find that one. Head back to the full list of stories.</p>
+          <div style="margin-top:28px;">
+            <a href="stories.html" class="btn btn-primary">Back to Stories</a>
+          </div>
+        </div>
+      </section>
+    `;
+  }
+</script>
+</body>
+</html>
